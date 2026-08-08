@@ -47,8 +47,25 @@ catálogo público (`app/content.ts`) do mapa de ids
 ## Passo a passo
 
 ### 1 · Stripe
+
+O produto é **`prod_V2NIEDOZO1Meh9`**. Ele precisa de dois prices recorrentes:
+um `month` e um `year`, os dois em BRL.
+
+Para listar os prices do produto e conferir se os valores batem com
+`app/lib/planos.ts`:
+
+```bash
+npm run precos                       # lê STRIPE_SECRET_KEY do .env.local
+npm run precos -- prod_OUTRO         # ou aponte outro produto
+```
+
+O script imprime as linhas `STRIPE_PRICE_MENSAL=` e `STRIPE_PRICE_ANUAL=`
+prontas para colar, e acusa se a Stripe cobrar um valor diferente do que a
+interface exibe.
+
 - [ ] Criar os dois prices **recorrentes** (mensal e anual) em modo `live`
-- [ ] Anotar os ids para `STRIPE_PRICE_MENSAL` e `STRIPE_PRICE_ANUAL`
+- [ ] Rodar `npm run precos` e colar os ids nas variáveis
+- [ ] Se o script acusar divergência, ajustar `app/lib/planos.ts`
 - [ ] Configurar o **Billing Portal**: permitir cancelamento no fim do período,
       troca de cartão e acesso a faturas
 - [ ] Cadastrar o endpoint de webhook apontando para
