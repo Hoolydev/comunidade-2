@@ -40,3 +40,6 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# .env.example não tem segredo — é a lista de variáveis necessárias.
+!.env.example
