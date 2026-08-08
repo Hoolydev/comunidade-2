@@ -43,3 +43,6 @@ next-env.d.ts
 
 # .env.example não tem segredo — é a lista de variáveis necessárias.
 !.env.example
+
+# cache incremental do TypeScript
+tsconfig.tsbuildinfo

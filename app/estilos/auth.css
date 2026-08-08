@@ -1,0 +1,62 @@
+/* Telas de autenticação (/entrar e /cadastro).
+ *
+ * O esqueleto (.auth-page, .auth-brand, .auth-copy) vive em app/globals.css e
+ * é reaproveitado como está. Aqui ficam só os acréscimos: aviso de erro e
+ * indicação de foco. Não duplique tokens — use os de :root. */
+
+/* Mensagem de erro vinda de um código (?erro=...). Fica na coluna do texto,
+ * acima do formulário do Clerk, e é anunciada por leitor de tela via
+ * aria-live no elemento. */
+/* `.auth-page` no seletor não é enfeite: em globals.css existe `.auth-copy p`
+ * (duas classes de especificidade contra uma), que venceria `.auth-aviso`
+ * sozinho e pintaria o erro da cor do parágrafo comum. */
+.auth-page .auth-aviso {
+  display: block;
+  margin: 22px 0 0;
+  max-width: 520px;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 143, 128, 0.34);
+  border-left: 3px solid #ff8f80;
+  border-radius: 8px;
+  background: rgba(255, 143, 128, 0.09);
+  /* #ffb4a8 sobre #252f45 = 7.8:1 */
+  color: #ffb4a8;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Vazio não deve reservar espaço nem ser lido. */
+.auth-page .auth-aviso:empty {
+  display: none;
+}
+
+/* Foco visível em tudo que é alcançável por teclado dentro da tela, inclusive
+ * nos elementos internos do Clerk (campos, botões, links do rodapé). O outline
+ * é somado ao estilo do Clerk, não substitui. */
+.auth-page :is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* O link de voltar já é um <a>; garante alvo de toque confortável. */
+.auth-brand:focus-visible {
+  outline-offset: 5px;
+}
+
+@media (max-width: 900px) {
+  .auth-page .auth-aviso {
+    margin-top: 18px;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-page *,
+  .auth-page *::before,
+  .auth-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
