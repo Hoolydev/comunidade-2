@@ -149,5 +149,5 @@ Cada item aqui é uma hora de depuração economizada.
 9. **Popup do Google e cookies de terceiros.** Se o login social falhar em
    produção, a saída é configurar domínio de autenticação próprio no Clerk, não
    trocar popup por redirect.
-10. **`stripe listen` aponta para a porta do Vite** (`5173` por padrão neste
-    projeto), não `3000`.
+10. **`stripe listen` aponta para a porta do ambiente local** (`3000` neste
+    projeto).
