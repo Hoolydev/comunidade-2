@@ -127,33 +127,27 @@ Cada item aqui é uma hora de depuração economizada.
 
 1. **Corpo cru no webhook.** `await request.text()`, nunca `await
    request.json()`. A validação HMAC precisa dos bytes originais.
-2. **`constructEventAsync`, nunca `constructEvent`.** O bundle da Stripe aqui é
-   o de Workers e verifica HMAC com `SubtleCrypto`, que não tem caminho
-   síncrono. A versão síncrona lança sempre, a exceção cai no `catch` da
-   assinatura inválida, e todo webhook legítimo vira `400` até a Stripe
-   desativar o endpoint. `runtime = "nodejs"` não salva: o bundling é do
-   workerd de qualquer forma.
-3. **`runtime = "nodejs"`** em toda rota que usa Clerk ou Stripe.
-4. **Custom claims não são instantâneas.** Depois de `updateUserMetadata`, o
+2. **`runtime = "nodejs"`** em toda rota que usa Clerk ou Stripe.
+3. **Custom claims não são instantâneas.** Depois de `updateUserMetadata`, o
    cliente só enxerga a mudança quando o token é renovado. Por isso a página de
    processamento faz polling de `GET /api/assinatura` (que lê do servidor) em
    vez de esperar o `user` do Clerk mudar sozinho.
-5. **`current_period_end` mudou de lugar.** Em versões recentes da API da
+4. **`current_period_end` mudou de lugar.** Em versões recentes da API da
    Stripe ele saiu da raiz de `Subscription` e vive em
    `subscription.items.data[0].current_period_end`. Leia os dois lugares e nunca
    assuma um só.
-6. **`success_url` não é confirmação de pagamento.** Em nenhuma circunstância.
-7. **A Stripe reenvia eventos.** Sem guarda de idempotência você credita o mesmo
+5. **`success_url` não é confirmação de pagamento.** Em nenhuma circunstância.
+6. **A Stripe reenvia eventos.** Sem guarda de idempotência você credita o mesmo
    pagamento várias vezes. E eventos chegam **fora de ordem** — por isso
    `Assinatura.eventoEm` existe: descarte evento mais antigo que o já aplicado.
-8. **O segredo do webhook é diferente por ambiente.** O do `stripe listen` não
+7. **O segredo do webhook é diferente por ambiente.** O do `stripe listen` não
    funciona em produção.
-9. **O binding `DB` pode não existir.** Em desenvolvimento o Miniflare simula;
+8. **O binding `DB` pode não existir.** Em desenvolvimento o Miniflare simula;
    em produção depende do control plane. Todo acesso ao banco precisa degradar
    com elegância — nunca deixe uma falha de D1 derrubar a confirmação de um
    pagamento.
-10. **Popup do Google e cookies de terceiros.** Se o login social falhar em
+9. **Popup do Google e cookies de terceiros.** Se o login social falhar em
    produção, a saída é configurar domínio de autenticação próprio no Clerk, não
    trocar popup por redirect.
-11. **`stripe listen` aponta para a porta do dev server** — `3000` neste
-    projeto (`npm run dev`), não a 5173 padrão do Vite.
+10. **`stripe listen` aponta para a porta do Vite** (`5173` por padrão neste
+    projeto), não `3000`.

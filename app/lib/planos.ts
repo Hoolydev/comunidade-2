@@ -41,11 +41,7 @@ export const PLANOS: Record<PlanoSlug, Plano> = {
 export const SLUGS_DE_PLANO = Object.keys(PLANOS) as PlanoSlug[];
 
 export function ehPlanoValido(valor: unknown): valor is PlanoSlug {
-  // `hasOwn` e não `in`: o operador `in` percorre a cadeia de protótipos, então
-  // `"constructor" in PLANOS` é verdadeiro. Com `in`, um slug inventado como
-  // "toString" passava na validação e o usuário recebia 503 nao_configurado no
-  // lugar do 400 plano_invalido que o contrato promete.
-  return typeof valor === "string" && Object.hasOwn(PLANOS, valor);
+  return typeof valor === "string" && valor in PLANOS;
 }
 
 /**

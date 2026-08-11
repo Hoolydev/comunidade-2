@@ -56,18 +56,8 @@ type Assinatura = {
 ```
 
 **Regra de acesso, definição única:**
-`temAcesso(status)` em `app/lib/tipos.ts` — `active`, `trialing` ou `past_due`.
-Não reimplemente essa comparação em nenhum outro arquivo.
-
-`past_due` libera de propósito, e isso resolve uma contradição que existia na
-primeira versão deste documento (D-08). `past_due` só acontece quando uma
-cobrança de **renovação** falha: a primeira cobrança recusada deixa a assinatura
-em `incomplete`, nunca em `past_due`. Portanto quem está em `past_due` já pagou
-pelo menos uma vez, e a Stripe ainda vai tentar cobrar de novo por cerca de duas
-semanas. Cortar o acesso no primeiro cartão recusado é tirar o produto de um
-cliente pagante por causa de um cartão vencido. O acesso cai em `canceled`, que
-é quando a Stripe desiste. Enquanto isso a interface mostra um aviso com link
-para o portal.
+`temAcesso(status)` em `app/lib/tipos.ts` — `active` ou `trialing`. Não
+reimplemente essa comparação em nenhum outro arquivo.
 
 Tabelas de apoio no D1 (`db/schema.ts`): `eventos_stripe` (idempotência) e
 `clientes_stripe` (busca reversa customer → uid). As duas são opcionais: o
@@ -138,14 +128,8 @@ Responde **sempre 200**; visitante anônimo recebe o estado vazio.
 Consumida apenas pela Stripe. Ordem obrigatória:
 
 1. `const corpo = await request.text()` — corpo **cru**
-2. `await stripe.webhooks.constructEventAsync(corpo, header, STRIPE_WEBHOOK_SECRET)`;
-   falhou → `400` e para (não faz a Stripe reenviar).
-   **Tem que ser a versão assíncrona.** O bundle da Stripe que roda aqui é o de
-   Workers, que verifica HMAC com `SubtleCrypto` — e `SubtleCrypto` não tem
-   caminho síncrono. A versão síncrona lança sempre, a exceção cai no mesmo
-   `catch` da assinatura inválida, e o resultado é `400` em **todo** webhook
-   legítimo até a Stripe desativar o endpoint. `runtime = "nodejs"` não muda
-   isso: o bundling é do workerd de qualquer forma.
+2. `stripe.webhooks.constructEvent(corpo, header, STRIPE_WEBHOOK_SECRET)`;
+   falhou → `400` e para (não faz a Stripe reenviar)
 3. Idempotência: registrar `eventos_stripe/{event.id}`; se já existia →
    `200 { recebido: true, duplicado: true }` e para
 4. Processar

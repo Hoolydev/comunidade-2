@@ -53,19 +53,9 @@ export const ASSINATURA_VAZIA: Assinatura = {
 /**
  * Regra de acesso. Definição única — não reimplemente esta comparação em
  * nenhum outro arquivo.
- *
- * `past_due` entra na lista de propósito. Ele só acontece quando uma cobrança
- * de *renovação* falha, e a Stripe fica tentando de novo por cerca de duas
- * semanas antes de desistir. Quem está em `past_due` já pagou pelo menos uma
- * vez: uma primeira cobrança que falha deixa a assinatura em `incomplete`, não
- * em `past_due`. Cortar o acesso no primeiro cartão recusado é tirar o produto
- * de um cliente pagante por causa de um cartão vencido.
- *
- * O acesso cai em `canceled`, que é quando a Stripe desiste de cobrar.
- * Enquanto isso, a interface mostra um aviso com link para o portal.
  */
 export function temAcesso(status: StatusAssinatura): boolean {
-  return status === "active" || status === "trialing" || status === "past_due";
+  return status === "active" || status === "trialing";
 }
 
 // ---------------------------------------------------------------------------
