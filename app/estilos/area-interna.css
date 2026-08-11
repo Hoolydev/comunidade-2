@@ -82,3 +82,93 @@
 @media (max-width: 1080px) { .formation-grid, .resource-grid, .member-grid, .agent-grid, .automation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.feed-layout { grid-template-columns: 1fr; }.stats-grid { grid-template-columns: repeat(2, 1fr); }.detail-hero { grid-template-columns: 1fr; }.detail-cover { min-height: 330px; } }
 @media (max-width: 820px) { .area-content { padding: 34px 20px 72px; }.area-hero { align-items: flex-start; flex-direction: column; }.area-hero-aside { padding: 18px 0 0; border-left: 0; border-top: 1px solid var(--line); }.event-card, .opportunity-card, .project-card, .progress-card { grid-template-columns: 1fr; }.opportunity-card aside { text-align: left; }.project-progress { width: 100%; }.area-toolbar { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 560px) { .formation-grid, .resource-grid, .member-grid, .agent-grid, .automation-grid, .stats-grid { grid-template-columns: 1fr; }.area-hero h1 { font-size: 42px; }.formation-card-body p { min-height: 0; }.lesson-row { grid-template-columns: 38px 1fr 18px; }.lesson-row small { display: none; } }
+
+/* Player de aulas */
+.youtube-stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: #090e18; box-shadow: 0 28px 70px rgba(5, 8, 15, .22); }
+.youtube-stage > div, .youtube-stage iframe { width: 100%; height: 100%; border: 0; display: block; }
+.lesson-complete-badge { position: absolute; z-index: 3; top: 17px; right: 17px; padding: 8px 11px; color: #d8fff8; background: rgba(17, 66, 58, .88); border: 1px solid rgba(112, 219, 202, .38); backdrop-filter: blur(12px); font-size: 10px; font-weight: 760; letter-spacing: .08em; text-transform: uppercase; }
+.lesson-stage--pending img { opacity: .3; filter: saturate(.7); }
+.lesson-stage--pending::after { background: linear-gradient(90deg, rgba(8, 12, 20, .86), rgba(8, 12, 20, .35)), linear-gradient(0deg, rgba(8, 12, 20, .62), transparent); }
+.lesson-pending-copy { position: absolute; z-index: 3; left: clamp(24px, 5vw, 70px); bottom: clamp(24px, 5vw, 70px); max-width: 560px; }
+.lesson-pending-copy span { display: block; margin-bottom: 13px; color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.lesson-pending-copy strong { display: block; font-size: clamp(25px, 3.5vw, 46px); line-height: 1.06; letter-spacing: -.04em; }
+.lesson-pending-copy p { margin: 13px 0 0; color: #aeb8c8; font-size: 14px; }
+
+/* Capas editoriais da biblioteca */
+.resource-card { padding: 0; min-height: 390px; }
+.resource-art { position: relative; height: 178px; overflow: hidden; isolation: isolate; background: linear-gradient(135deg, #101827, #1b2740); border-bottom: 1px solid var(--line); }
+.resource-art::before { content: ""; position: absolute; width: 270px; height: 270px; right: -120px; top: -135px; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; box-shadow: 0 0 0 28px rgba(255,255,255,.025), 0 0 0 58px rgba(255,255,255,.02); }
+.resource-art::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(115deg, transparent 48%, rgba(255,255,255,.045) 48.2%, transparent 48.5%), radial-gradient(circle at 24% 72%, rgba(112,219,202,.24), transparent 36%); }
+.resource-card--2 .resource-art { background: linear-gradient(135deg, #271d35, #151d31); }
+.resource-card--2 .resource-art::after { background: linear-gradient(115deg, transparent 48%, rgba(255,255,255,.045) 48.2%, transparent 48.5%), radial-gradient(circle at 24% 72%, rgba(196,126,232,.28), transparent 36%); }
+.resource-card--3 .resource-art { background: linear-gradient(135deg, #30211d, #171e30); }
+.resource-card--3 .resource-art::after { background: linear-gradient(115deg, transparent 48%, rgba(255,255,255,.045) 48.2%, transparent 48.5%), radial-gradient(circle at 24% 72%, rgba(240,120,68,.26), transparent 36%); }
+.resource-card--4 .resource-art { background: linear-gradient(135deg, #172b2c, #151d31); }
+.resource-art-index { position: absolute; left: 20px; top: 18px; color: rgba(255,255,255,.52); font: 10px var(--font-geist-mono); }
+.resource-art-code { position: absolute; left: 21px; bottom: 30px; color: #f5f7fb; font: 680 clamp(34px, 4vw, 52px) var(--font-geist-mono); letter-spacing: -.07em; }
+.resource-art i { position: absolute; left: 22px; bottom: 21px; width: 52px; height: 2px; background: var(--gold); box-shadow: 58px 0 0 rgba(255,255,255,.2); }
+.resource-art b { position: absolute; right: 18px; bottom: 17px; color: rgba(255,255,255,.55); font-size: 8px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; writing-mode: vertical-rl; }
+.resource-card-copy { min-height: 212px; padding: 22px; display: flex; flex-direction: column; }
+.resource-card-copy .resource-card-top span { color: #72d9c7; font-size: 9px; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+.resource-card-copy h3 { margin: 18px 0 9px; }
+.resource-card-copy footer { margin-top: auto; }
+.material-actions { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.material-awaiting { min-height: 42px; padding: 0 16px; display: inline-flex; align-items: center; color: #9ca6b7; background: rgba(255,255,255,.03); border: 1px solid var(--line); font-size: 11px; }
+
+/* Gestão de conteúdo */
+.admin-content { max-width: 1340px; }
+.admin-summary { margin: 28px 0 42px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.admin-summary article { min-height: 128px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); background: rgba(255,255,255,.025); }
+.admin-summary span { color: var(--muted); font-size: 11px; }
+.admin-summary strong { font-size: 30px; font-weight: 580; }
+.admin-summary small { color: var(--gold); font-size: 13px; font-weight: 600; }
+.admin-notice { position: sticky; top: 92px; z-index: 8; margin: -18px 0 25px; padding: 13px 16px; border: 1px solid; backdrop-filter: blur(16px); font-size: 12px; }
+.admin-notice--ok { color: #c9fff5; border-color: rgba(112,219,202,.32); background: rgba(20,77,68,.88); }
+.admin-notice--erro { color: #ffe1db; border-color: rgba(240,120,68,.38); background: rgba(78,35,29,.9); }
+.admin-section { margin-top: 42px; }
+.admin-section > header { margin-bottom: 20px; display: grid; grid-template-columns: 1fr minmax(250px, 420px); align-items: end; gap: 30px; }
+.admin-section > header span { color: var(--gold); font-size: 10px; font-weight: 780; letter-spacing: .15em; text-transform: uppercase; }
+.admin-section > header h2 { margin: 9px 0 0; font-size: 30px; letter-spacing: -.04em; }
+.admin-section > header p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.admin-formation-list { border-top: 1px solid var(--line); }
+.admin-formation-list details { border-bottom: 1px solid var(--line); }
+.admin-formation-list summary { min-height: 84px; padding: 0 18px; display: grid; grid-template-columns: 42px 1fr 18px; align-items: center; gap: 14px; cursor: pointer; list-style: none; }
+.admin-formation-list summary::-webkit-details-marker { display: none; }
+.admin-formation-list summary > span { color: #69758a; font: 11px var(--font-geist-mono); }
+.admin-formation-list summary strong, .admin-formation-list summary small { display: block; }
+.admin-formation-list summary strong { font-size: 15px; }
+.admin-formation-list summary small { margin-top: 5px; color: var(--muted); font-size: 10px; }
+.admin-formation-list summary i { width: 10px; height: 10px; border-right: 1px solid var(--gold); border-bottom: 1px solid var(--gold); transform: rotate(45deg); transition: transform .2s ease; }
+.admin-formation-list details[open] summary i { transform: rotate(225deg); }
+.admin-lessons { padding: 0 18px 18px 74px; }
+.admin-lesson-row { min-height: 90px; display: grid; grid-template-columns: 34px 1fr 120px; align-items: center; gap: 14px; border-top: 1px solid rgba(255,255,255,.065); }
+.admin-lesson-row > span { color: #667185; font: 10px var(--font-geist-mono); }
+.admin-lesson-row label strong { display: block; margin-bottom: 7px; font-size: 12px; }
+.admin-lesson-row input { width: 100%; height: 36px; padding: 0 11px; color: #e9edf3; background: rgba(5,9,17,.24); border: 1px solid var(--line); outline: 0; font-size: 11px; }
+.admin-lesson-row input:focus { border-color: rgba(242,183,49,.45); }
+.admin-lesson-row button, .admin-file-button { min-height: 38px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; color: #161a23; background: var(--gold); border: 0; cursor: pointer; font-size: 10px; font-weight: 760; }
+.admin-lesson-row button:disabled, .admin-file-button:has(input:disabled) { cursor: wait; opacity: .62; }
+.admin-file-list { border-top: 1px solid var(--line); }
+.admin-file-list article { min-height: 98px; padding: 15px 18px; display: grid; grid-template-columns: 42px 1fr 135px; align-items: center; gap: 14px; border-bottom: 1px solid var(--line); }
+.admin-file-list article > span { color: #69758a; font: 11px var(--font-geist-mono); }
+.admin-file-list small, .admin-file-list strong, .admin-file-list p { display: block; }
+.admin-file-list small { margin-bottom: 4px; color: #72d9c7; font-size: 9px; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+.admin-file-list strong { font-size: 14px; }
+.admin-file-list p { margin: 6px 0 0; color: var(--muted); font-size: 10px; }
+.admin-file-actions { display: grid; gap: 7px; }
+.admin-file-actions button { min-height: 31px; color: #9ea8b8; background: transparent; border: 1px solid var(--line); cursor: pointer; font-size: 9px; }
+.admin-file-button { position: relative; overflow: hidden; }
+.admin-file-button input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.admin-loading, .admin-blocked { margin-top: 30px; padding: 48px; color: var(--muted); border: 1px dashed var(--line); text-align: center; }
+.admin-blocked span { color: var(--gold); font-size: 10px; font-weight: 780; letter-spacing: .15em; text-transform: uppercase; }
+.admin-blocked h2 { margin: 12px 0; color: var(--white); }
+
+@media (max-width: 820px) {
+  .admin-summary { grid-template-columns: 1fr; }
+  .admin-section > header { grid-template-columns: 1fr; gap: 10px; }
+  .admin-lessons { padding-left: 18px; }
+  .admin-lesson-row { padding: 14px 0; grid-template-columns: 28px 1fr; }
+  .admin-lesson-row button { grid-column: 2; width: fit-content; }
+  .admin-file-list article { grid-template-columns: 30px 1fr; }
+  .admin-file-actions { grid-column: 2; width: fit-content; }
+}

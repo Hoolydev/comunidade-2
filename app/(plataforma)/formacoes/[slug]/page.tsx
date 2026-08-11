@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, Clock3, Play } from "lucide-react";
 import { formacoes } from "../../../dados-comunidade";
+import { obterFormacao } from "../../../lib/conteudo";
 
 export function generateStaticParams() { return formacoes.map(({ slug }) => ({ slug })); }
 
 export default async function FormacaoPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const formacao = formacoes.find((item) => item.slug === slug);
+  const formacao = await obterFormacao(slug);
   if (!formacao) return <div className="area-content"><p>Formação não encontrada.</p></div>;
 
   return (

@@ -156,6 +156,61 @@ estado. Ela é o único lugar do código que escreve `publicMetadata.assinatura`
 
 ---
 
+## Extensão — conteúdo da comunidade
+
+Estas rotas foram adicionadas para a publicação de vídeos do YouTube, arquivos
+privados e progresso das aulas. Não alteram o contrato de autenticação e
+cobrança acima.
+
+### `GET /api/admin/conteudo`
+
+Exige administrador. Devolve formações, aulas e materiais, incluindo rascunhos.
+
+### `PATCH /api/admin/conteudo`
+
+Exige administrador.
+
+```
+req  { acao: "video", aulaId: string, youtubeUrl: string }
+200  { salvo: true, youtubeVideoId: string | null }
+400  youtube_invalido | dados_invalidos
+403  nao_autorizado
+404  aula_nao_encontrada
+```
+
+### `POST /api/admin/arquivos`
+
+Exige administrador. Recebe `multipart/form-data` com `slug` e `arquivo`.
+Aceita documentos, planilhas, apresentações, texto e ZIP de até 25 MB. Os bytes
+ficam no R2 privado; o D1 guarda apenas os metadados.
+
+`DELETE /api/admin/arquivos` recebe `{ slug }`, remove o objeto do R2 e limpa os
+metadados do material.
+
+### `GET /api/arquivos/:slug`
+
+Exige assinatura ativa em produção. Entrega o arquivo com download forçado e
+sem cache público.
+
+### `GET /api/progresso?aulaId=...`
+
+Exige assinatura ativa em produção. Devolve a última posição, duração e estado
+de conclusão da aula.
+
+### `POST /api/progresso`
+
+Exige assinatura ativa em produção.
+
+```
+req  { aulaId, posicaoSegundos, duracaoSegundos, concluida }
+200  { salvo: true, concluida: boolean }
+```
+
+A conclusão é preservada e também é marcada automaticamente quando o aluno
+atinge 90% do vídeo.
+
+---
+
 ## Erros
 
 `CodigoErro` é uma união fechada de strings estáveis. O servidor devolve

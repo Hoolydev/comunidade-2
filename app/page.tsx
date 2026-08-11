@@ -186,8 +186,6 @@ export default function Home() {
     `${track.category} ${track.title} ${track.description} ${track.outcome}`.toLowerCase().includes(query.toLowerCase()),
   );
 
-  useEffect(() => setActiveSlide(0), [query]);
-
   useEffect(() => {
     const card = carouselRef.current?.children[activeSlide] as HTMLElement | undefined;
     card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
@@ -257,7 +255,7 @@ export default function Home() {
           <div className="mobile-brand">HÁGIOS</div>
           <label className="search">
             <Search size={19} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar formações, aulas e conteúdos" aria-label="Buscar na plataforma" />
+            <input value={query} onChange={(event) => { setQuery(event.target.value); setActiveSlide(0); }} placeholder="Buscar formações, aulas e conteúdos" aria-label="Buscar na plataforma" />
             <kbd>⌘ K</kbd>
           </label>
           <div className="top-actions">

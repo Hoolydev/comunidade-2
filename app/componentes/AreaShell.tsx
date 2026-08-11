@@ -16,6 +16,7 @@ import {
   GraduationCap,
   House,
   LibraryBig,
+  ListVideo,
   Menu,
   MessageSquareText,
   Search,
@@ -44,6 +45,7 @@ const navGroups: { label: string; items: NavItem[] }[] = [
     { label: "Agentes especialistas", icon: Bot, href: "/agentes" },
     { label: "Automações", icon: Workflow, href: "/automacoes" },
     { label: "Meus projetos", icon: Boxes, href: "/projetos" },
+    { label: "Gestão de conteúdo", icon: ListVideo, href: "/admin/conteudos" },
   ] },
 ];
 

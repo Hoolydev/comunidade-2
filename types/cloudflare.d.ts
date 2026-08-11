@@ -31,6 +31,27 @@ interface Fetcher {
   fetch(input: Request | string, init?: RequestInit): Promise<Response>;
 }
 
+interface R2HTTPMetadata {
+  contentType?: string;
+  contentDisposition?: string;
+}
+
+interface R2ObjectBody {
+  body: ReadableStream;
+  size: number;
+  httpMetadata?: R2HTTPMetadata;
+}
+
+interface R2Bucket {
+  get(key: string): Promise<R2ObjectBody | null>;
+  put(
+    key: string,
+    value: ArrayBuffer | ArrayBufferView | ReadableStream | string,
+    options?: { httpMetadata?: R2HTTPMetadata; customMetadata?: Record<string, string> },
+  ): Promise<unknown>;
+  delete(key: string): Promise<void>;
+}
+
 declare module "cloudflare:workers" {
   /**
    * Bindings do Worker. `DB` é opcional porque o binding só existe quando o
@@ -38,6 +59,7 @@ declare module "cloudflare:workers" {
    */
   export const env: {
     DB?: D1Database;
+    FILES?: R2Bucket;
     ASSETS?: Fetcher;
     [chave: string]: unknown;
   };
