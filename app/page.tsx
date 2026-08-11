@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Show, SignInButton, UserButton } from "@clerk/react";
 import {
   ArrowRight,
@@ -32,6 +33,7 @@ import {
 } from "lucide-react";
 
 type Track = {
+  slug: string;
   category: string;
   title: string;
   description: string;
@@ -44,6 +46,7 @@ type Track = {
 
 const tracks: Track[] = [
   {
+    slug: "vendedor-virtual-whatsapp",
     category: "ATENDIMENTO",
     title: "O Vendedor Virtual 24h no WhatsApp",
     description: "Pare de perder clientes para o concorrente porque você demorou para responder no WhatsApp.",
@@ -54,6 +57,7 @@ const tracks: Track[] = [
     cover: "/module-covers/01-vendedor-whatsapp.png",
   },
   {
+    slug: "suporte-pos-venda",
     category: "ATENDIMENTO",
     title: "Não Perca Mais Tempo no Suporte",
     description: "Reduza em até 70% o volume de chamados sem precisar contratar mais atendentes.",
@@ -64,6 +68,7 @@ const tracks: Track[] = [
     cover: "/module-covers/02-suporte-pos-venda.png",
   },
   {
+    slug: "crm-antiesquecimento",
     category: "ATENDIMENTO",
     title: "O Sistema Antiesquecimento de Clientes",
     description: "Recupere vendas perdidas no seu funil com cobranças, lembretes e ofertas automáticas.",
@@ -74,6 +79,7 @@ const tracks: Track[] = [
     cover: "/module-covers/03-crm-automatico.png",
   },
   {
+    slug: "clone-em-video",
     category: "MARKETING",
     title: "Faça Seu Clone Trabalhar por Você",
     description: "Crie vídeos com seu clone e mantenha a constância na criação de conteúdo.",
@@ -84,6 +90,7 @@ const tracks: Track[] = [
     cover: "/module-covers/04-clone-video.png",
   },
   {
+    slug: "posts-em-minutos",
     category: "MARKETING",
     title: "Seus Posts Feitos em Minutos",
     description: "Produza artes profissionais sem passar horas no Canva ou depender de terceiros.",
@@ -94,6 +101,7 @@ const tracks: Track[] = [
     cover: "/module-covers/05-posts-minutos.png",
   },
   {
+    slug: "video-de-produto",
     category: "MARKETING",
     title: "Seu Produto em um Vídeo Profissional",
     description: "Crie vídeos profissionais do seu produto com menos tempo e recursos.",
@@ -104,6 +112,7 @@ const tracks: Track[] = [
     cover: "/module-covers/06-video-produto.png",
   },
   {
+    slug: "prospeccao-automatica",
     category: "COMERCIAL",
     title: "Prospecção que Busca Clientes por Você",
     description: "Encontre, filtre e aborde leads qualificados sem montar um time de SDR.",
@@ -114,6 +123,7 @@ const tracks: Track[] = [
     cover: "/module-covers/07-prospeccao.png",
   },
   {
+    slug: "funil-de-vendas",
     category: "COMERCIAL",
     title: "O Funil que Não Deixa Vendas Sumirem",
     description: "Conduza o cliente do primeiro contato ao fechamento com automações.",
@@ -124,6 +134,7 @@ const tracks: Track[] = [
     cover: "/module-covers/08-funil-vendas.png",
   },
   {
+    slug: "precificacao-inteligente",
     category: "COMERCIAL",
     title: "O Preço Certo para Cada Oferta",
     description: "Use dados e IA para precificar com confiança e identificar quem tem maior chance de comprar.",
@@ -135,38 +146,37 @@ const tracks: Track[] = [
   },
 ];
 
-type NavItem = { label: string; icon: LucideIcon; badge?: string };
+type NavItem = { label: string; icon: LucideIcon; href: string; badge?: string };
 const navGroups: { label: string; items: NavItem[] }[] = [
   {
     label: "Aprender",
     items: [
-      { label: "Início", icon: House },
-      { label: "Formações", icon: GraduationCap },
-      { label: "Biblioteca", icon: LibraryBig },
-      { label: "Meu progresso", icon: ChartNoAxesColumnIncreasing },
+      { label: "Início", icon: House, href: "/" },
+      { label: "Formações", icon: GraduationCap, href: "/formacoes" },
+      { label: "Biblioteca", icon: LibraryBig, href: "/biblioteca" },
+      { label: "Meu progresso", icon: ChartNoAxesColumnIncreasing, href: "/progresso" },
     ],
   },
   {
     label: "Comunidade",
     items: [
-      { label: "Feed", icon: MessageSquareText, badge: "12" },
-      { label: "Membros", icon: Users },
-      { label: "Lives & encontros", icon: CalendarDays },
-      { label: "Oportunidades", icon: BriefcaseBusiness },
+      { label: "Feed", icon: MessageSquareText, href: "/feed", badge: "12" },
+      { label: "Membros", icon: Users, href: "/membros" },
+      { label: "Lives & encontros", icon: CalendarDays, href: "/encontros" },
+      { label: "Oportunidades", icon: BriefcaseBusiness, href: "/oportunidades" },
     ],
   },
   {
     label: "Laboratório",
     items: [
-      { label: "Agentes especialistas", icon: Bot },
-      { label: "Automações", icon: Workflow },
-      { label: "Meus projetos", icon: Boxes },
+      { label: "Agentes especialistas", icon: Bot, href: "/agentes" },
+      { label: "Automações", icon: Workflow, href: "/automacoes" },
+      { label: "Meus projetos", icon: Boxes, href: "/projetos" },
     ],
   },
 ];
 
 export default function Home() {
-  const [activeNav, setActiveNav] = useState("Início");
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
@@ -209,16 +219,17 @@ export default function Home() {
           {navGroups.map((group) => (
             <div className="nav-group" key={group.label}>
               <p>{group.label}</p>
-              {group.items.map(({ icon: Icon, label, badge }) => (
-                <button
-                  key={label}
-                  className={activeNav === label ? "active" : ""}
-                  onClick={() => { setActiveNav(label); setMenuOpen(false); }}
+              {group.items.map(({ icon: Icon, label, badge, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={href === "/" ? "active" : ""}
+                  onClick={() => setMenuOpen(false)}
                 >
                   <Icon className="nav-icon" strokeWidth={1.8} />
                   <span>{label}</span>
                   {badge && <i>{badge}</i>}
-                </button>
+                </Link>
               ))}
             </div>
           ))}
@@ -294,12 +305,12 @@ export default function Home() {
                 {visibleTracks.map((track, index) => {
                   return (
                   <article className="track-card" key={track.title}>
-                    <div className="track-art">
+                    <Link className="track-art" href={`/formacoes/${track.slug}`}>
                       <img src={track.cover} alt={`Capa da formação ${track.title}`} />
                       <div className="track-overlay" />
                       <span className="track-eyebrow">{track.category}</span>
                       <span className="track-number">{String(index + 1).padStart(2, "0")}</span>
-                    </div>
+                    </Link>
                     <div className="track-body">
                       <h3>{track.title}</h3>
                       <p>{track.description}</p>
@@ -308,7 +319,7 @@ export default function Home() {
                       {track.progress > 0 ? (
                         <div className="mini-progress"><div><span>Em andamento</span><strong>{track.progress}%</strong></div><div className="progress"><i style={{ width: `${track.progress}%` }} /></div></div>
                       ) : (
-                        <button className="start-track">Conhecer formação <ArrowUpRight /></button>
+                        <Link className="start-track" href={`/formacoes/${track.slug}`}>Conhecer formação <ArrowUpRight /></Link>
                       )}
                     </div>
                   </article>
