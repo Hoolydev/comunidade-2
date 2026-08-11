@@ -65,3 +65,43 @@ test("mantém biblioteca privada e painel de publicação", async () => {
   assert.match(painel, /Arquivos para membros/);
   await access(new URL("app/(plataforma)/admin/conteudos/page.tsx", raiz));
 });
+
+test("protege a comunidade e libera acesso somente pelo webhook", async () => {
+  const [inicio, layout, checkout, webhook, sucesso] = await Promise.all([
+    ler("app/page.tsx"),
+    ler("app/(plataforma)/layout.tsx"),
+    ler("app/api/checkout/route.ts"),
+    ler("app/api/stripe/webhook/route.ts"),
+    ler("app/componentes/ConfirmarPagamento.tsx"),
+  ]);
+
+  assert.match(inicio, /exigirAssinante/);
+  assert.match(layout, /exigirAssinante/);
+  assert.match(checkout, /priceIdDoPlano/);
+  assert.doesNotMatch(checkout, /pedido\.price/);
+  assert.match(checkout, /client_reference_id/);
+  assert.match(checkout, /subscription_data/);
+  assert.match(webhook, /await request\.text\(\)/);
+  assert.match(webhook, /constructEventAsync/);
+  assert.match(webhook, /registrarEventoStripe/);
+  assert.match(sucesso, /\/api\/assinatura/);
+  assert.doesNotMatch(sucesso, /updateUserMetadata/);
+});
+
+test("mantém as telas públicas de aquisição e autenticação", async () => {
+  for (const caminho of [
+    "app/(publico)/vendas/page.tsx",
+    "app/(publico)/planos/page.tsx",
+    "app/(publico)/entrar/page.tsx",
+    "app/(publico)/cadastro/page.tsx",
+    "app/(publico)/assinar/page.tsx",
+    "app/(publico)/pagamento/sucesso/page.tsx",
+  ]) {
+    await access(new URL(caminho, raiz));
+  }
+
+  const vendas = await ler("app/(publico)/vendas/page.tsx");
+  assert.match(vendas, /formacao\.cover/);
+  assert.match(vendas, /mh-track-marquee/);
+  assert.doesNotMatch(vendas, /sales-orbit/);
+});
