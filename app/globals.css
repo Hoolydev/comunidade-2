@@ -333,8 +333,6 @@ main { grid-column: 2; min-width: 0; }
 .auth-copy > span { color: #70dbca; font-size: 12px; font-weight: 800; letter-spacing: .17em; }
 .auth-copy h1 { font-size: clamp(42px, 5.2vw, 74px); line-height: 1; letter-spacing: -.055em; margin: 18px 0; font-weight: 560; }
 .auth-copy p { color: #bac3d2; font-size: 18px; line-height: 1.6; max-width: 520px; }
-.auth-page .cl-rootBox { justify-self: end; width: 100%; }
-.auth-page .cl-cardBox, .auth-page .cl-card { width: 100%; }
 
 /* Página de vendas */
 .sales-page { min-height: 100vh; overflow: hidden; background: #252f45; color: #f7f8fb; }
@@ -409,7 +407,7 @@ button.sales-primary { border: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 900px) {
-  .auth-page { grid-template-columns: 1fr; gap: 45px; padding: 28px 22px 55px; }.auth-brand { grid-column: auto; }.auth-copy { margin-top: 30px; }.auth-page .cl-rootBox { justify-self: center; }
+  .auth-page { grid-template-columns: 1fr; gap: 45px; padding: 28px 22px 55px; }.auth-brand { grid-column: auto; }.auth-copy { margin-top: 30px; }
   .sales-nav nav { display: none; }.sales-nav-actions { margin-left: auto; }.sales-hero { grid-template-columns: 1fr; padding-top: 70px; }.sales-hero-visual { min-height: 470px; }.sales-module-grid { grid-template-columns: repeat(2, 1fr); }.sales-audience, .sales-offer { grid-template-columns: 1fr; }.sales-audience { gap: 45px; }
 }
 

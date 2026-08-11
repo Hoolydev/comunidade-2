@@ -1,6 +1,11 @@
 import type { ReactNode } from "react";
 import { AreaShell } from "../componentes/AreaShell";
+import { previewLocalAtivo } from "../lib/acesso-local";
+import { exigirAssinante } from "../lib/guarda";
 
-export default function PlataformaLayout({ children }: { children: ReactNode }) {
+export const runtime = "nodejs";
+
+export default async function PlataformaLayout({ children }: { children: ReactNode }) {
+  if (!previewLocalAtivo()) await exigirAssinante("/");
   return <AreaShell>{children}</AreaShell>;
 }
