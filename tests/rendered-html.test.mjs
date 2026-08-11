@@ -9,10 +9,12 @@ async function ler(caminho) {
 }
 
 test("configura persistência para conteúdo e arquivos", async () => {
-  const [hosting, schema, migration] = await Promise.all([
+  const [hosting, schema, migration, remoteConfig, seed] = await Promise.all([
     ler(".openai/hosting.json"),
     ler("db/schema.ts"),
     ler("drizzle/0000_luxuriant_warhawk.sql"),
+    ler("wrangler.remote.jsonc"),
+    ler("drizzle/0001_seed_conteudo.sql"),
   ]);
 
   assert.deepEqual(JSON.parse(hosting), {
@@ -24,6 +26,13 @@ test("configura persistência para conteúdo e arquivos", async () => {
     assert.match(schema, new RegExp(`"${tabela}"`));
     assert.match(migration, new RegExp("CREATE TABLE IF NOT EXISTS `" + tabela + "`"));
   }
+  assert.match(remoteConfig, /"binding": "DB"/);
+  assert.match(remoteConfig, /"database_name": "movimento-hagios"/);
+  assert.match(remoteConfig, /"binding": "FILES"/);
+  assert.match(remoteConfig, /"bucket_name": "movimento-hagios-arquivos"/);
+  assert.equal((seed.match(/INSERT OR IGNORE INTO formacoes/g) ?? []).length, 9);
+  assert.equal((seed.match(/INSERT OR IGNORE INTO aulas/g) ?? []).length, 68);
+  assert.equal((seed.match(/INSERT OR IGNORE INTO materiais/g) ?? []).length, 8);
 });
 
 test("usa YouTube privado e registra progresso das aulas", async () => {
