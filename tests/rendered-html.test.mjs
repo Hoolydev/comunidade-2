@@ -103,5 +103,8 @@ test("mantém as telas públicas de aquisição e autenticação", async () => {
   const vendas = await ler("app/(publico)/vendas/page.tsx");
   assert.match(vendas, /formacao\.cover/);
   assert.match(vendas, /mh-track-marquee/);
+  assert.match(vendas, /mockup-comunidade-hagios\.png/);
+  assert.match(vendas, /três operações com IA/);
   assert.doesNotMatch(vendas, /sales-orbit/);
+  await access(new URL("public/mockup-comunidade-hagios.png", raiz));
 });
