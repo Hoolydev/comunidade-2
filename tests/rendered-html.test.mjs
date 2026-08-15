@@ -76,7 +76,8 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   ]);
 
   assert.match(inicio, /HomeMembro/);
-  assert.match(layout, /exigirAssinante/);
+  assert.match(layout, /verificarAcesso/);
+  assert.match(layout, /RedirecionarAcesso/);
   assert.match(checkout, /priceIdDoPlano/);
   assert.doesNotMatch(checkout, /pedido\.price/);
   assert.match(checkout, /client_reference_id/);
