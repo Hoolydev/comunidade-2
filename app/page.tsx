@@ -1,3 +1,7 @@
 import "./estilos/acesso.css";
 
-export { default } from "./(publico)/vendas/page";
+import Vendas from "./(publico)/vendas/page";
+
+export default function PaginaInicial() {
+  return <Vendas />;
+}

@@ -118,15 +118,25 @@ test("mantém as telas públicas de aquisição e autenticação", async () => {
     await access(new URL(caminho, raiz));
   }
 
-  const vendas = await ler("app/(publico)/vendas/page.tsx");
+  const [vendas, estilos] = await Promise.all([
+    ler("app/(publico)/vendas/page.tsx"),
+    ler("app/estilos/acesso.css"),
+  ]);
   assert.match(vendas, /formacao\.cover/);
   assert.match(vendas, /mh-track-marquee/);
   assert.match(vendas, /mockup-comunidade-hagios\.png/);
+  assert.match(vendas, /Quero implementar IA na minha empresa/);
+  assert.match(vendas, /Quero ganhar produtividade com IA/);
+  assert.match(vendas, /Aplicação prática no negócio/);
+  assert.match(vendas, /Direção clara para implementar/);
   assert.match(vendas, /três operações com IA/);
-  assert.match(vendas, /Garantir o desconto anual/);
+  assert.match(vendas, /Quero o desconto do plano anual/);
   assert.match(vendas, /quase 2 mensalidades de desconto/);
+  assert.doesNotMatch(vendas, /ArrowRight/);
   assert.doesNotMatch(vendas, /sales-orbit/);
+  assert.match(estilos, /hero-immersive-ai-hagios\.png/);
   await access(new URL("public/mockup-comunidade-hagios.png", raiz));
+  await access(new URL("public/hero-immersive-ai-hagios.png", raiz));
 });
 
 test("destaca a economia anual na oferta e no checkout", async () => {

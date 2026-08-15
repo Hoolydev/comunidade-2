@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- O otimizador de imagens do Vinext exige ASSETS e falha no preview local. */
 
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Link from "next/link";
 
 import { MarcaHagios } from "../../componentes/MarcaHagios";
@@ -63,7 +63,7 @@ export default function Vendas() {
         </nav>
         <div>
           <Link href="/entrar">Entrar</Link>
-          <a className="mh-button mh-button--gold" href="#planos">Quero participar</a>
+          <a className="mh-button mh-button--gold" href="#planos">Implementar IA agora</a>
         </div>
       </header>
 
@@ -75,21 +75,25 @@ export default function Vendas() {
             A comunidade que prepara empresários para usar a inteligência artificial, otimizar
             processos, reduzir o peso da operação e criar espaço para a empresa crescer.
           </p>
+          <strong className="mh-sales__implementation-line">
+            Implemente hoje na sua empresa e ganhe produtividade.
+          </strong>
           <div className="mh-sales__actions">
             <a className="mh-button mh-button--gold" href="#planos">
-              Quero participar <ArrowRight />
+              Quero implementar IA na minha empresa
             </a>
-            <a className="mh-sales__text-link" href="#como-funciona">Entender como funciona</a>
+            <a className="mh-sales__text-link" href="#formacoes">Quero ganhar produtividade com IA</a>
           </div>
           <div className="mh-sales__trust" aria-label="Benefícios principais">
-            <span><Check /> Aplicação prática</span>
-            <span><Check /> Direção para implementar</span>
+            <span><Check /> Aplicação prática no negócio</span>
+            <span><Check /> Direção clara para implementar</span>
             <span><Check /> Sem precisar ser especialista</span>
           </div>
           <a className="mh-sales__annual-callout" href="#planos">
-            <span>PLANO ANUAL</span>
-            <strong>Economize {formatarPreco(economiaAnual)}</strong>
+            <span>OFERTA ANUAL</span>
+            <strong>Quase 2 mensalidades de desconto</strong>
             <small>{formatarPreco(PRECO_ANUAL_PUBLICO_CENTAVOS)}/ano · equivalente a {formatarPreco(equivalenteMensal)}/mês</small>
+            <em>Economize {formatarPreco(economiaAnual)}</em>
           </a>
         </div>
 
@@ -156,7 +160,7 @@ export default function Vendas() {
             Você não entra apenas para consumir conteúdo. Entra para começar a construir uma empresa
             mais eficiente, atualizada e preparada para crescer.
           </p>
-          <a className="mh-button mh-button--gold" href="#planos">Quero participar <ArrowRight /></a>
+          <a className="mh-button mh-button--gold" href="#planos">Começar minha implementação</a>
         </div>
         <div className="mh-sales__ninety">
           <span>EM ATÉ</span>
@@ -234,12 +238,12 @@ export default function Vendas() {
               <li><Check /> Comunidade e encontros ao vivo</li>
             </ul>
             <Link className="mh-button mh-button--ghost" href="/cadastro?plano=mensal">
-              Começar no mensal <ArrowRight />
+              Começar no mensal
             </Link>
           </article>
 
           <article className="mh-sales__price-card mh-sales__price-card--featured">
-            <span className="mh-sales__price-tag">MAIS VANTAJOSO</span>
+            <span className="mh-sales__price-tag">PLANO RECOMENDADO · MAIOR ECONOMIA</span>
             <p>Plano anual</p>
             <h3>{formatarPreco(PRECO_ANUAL_PUBLICO_CENTAVOS)}<small>/ano</small></h3>
             <strong>Economize {formatarPreco(economiaAnual)} — quase 2 mensalidades de desconto</strong>
@@ -252,7 +256,7 @@ export default function Vendas() {
               <li><Check /> Comunidade e encontros ao vivo</li>
             </ul>
             <Link className="mh-button mh-button--gold" href="/cadastro?plano=anual">
-              Garantir o desconto anual <ArrowRight />
+              Quero o desconto do plano anual
             </Link>
           </article>
         </div>
@@ -268,7 +272,7 @@ export default function Vendas() {
           com a inteligência artificial aplicada às prioridades do seu negócio.
         </p>
         <Link className="mh-button mh-button--gold" href="/cadastro?plano=anual">
-          Quero o plano anual com desconto <ArrowRight />
+          Quero implementar IA agora
         </Link>
       </section>
     </main>
