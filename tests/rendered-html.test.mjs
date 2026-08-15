@@ -67,13 +67,14 @@ test("mantém biblioteca privada e painel de publicação", async () => {
 });
 
 test("protege a comunidade e libera acesso somente pelo webhook", async () => {
-  const [inicio, layout, provider, checkout, webhook, webhookVercel, sucesso, portal] = await Promise.all([
+  const [inicio, layout, provider, checkout, webhook, webhookVercel, apiShared, sucesso, portal] = await Promise.all([
     ler("app/(plataforma)/inicio/page.tsx"),
     ler("app/(plataforma)/layout.tsx"),
     ler("app/ClerkClientProvider.tsx"),
     ler("app/api/checkout/route.ts"),
     ler("app/api/stripe/webhook/route.ts"),
     ler("api/stripe/webhook.ts"),
+    ler("api/_shared.ts"),
     ler("app/componentes/ConfirmarPagamento.tsx"),
     ler("app/componentes/GerenciarAssinaturaButton.tsx"),
   ]);
@@ -93,6 +94,8 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   assert.match(webhook, /registrarEventoStripe/);
   assert.match(webhook, /invoice\.payment_succeeded/);
   assert.match(webhookVercel, /invoice\.payment_succeeded/);
+  assert.match(apiShared, /status === "active" \|\| status === "trialing"/);
+  assert.doesNotMatch(apiShared, /status === "trialing" \|\| status === "past_due"/);
   assert.match(sucesso, /\/api\/assinatura/);
   assert.doesNotMatch(sucesso, /updateUserMetadata/);
   assert.match(portal, /\/api\/portal/);

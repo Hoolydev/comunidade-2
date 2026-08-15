@@ -138,7 +138,7 @@ export async function sessao(request: Request): Promise<Sessao> {
 }
 
 export function temAcesso(status: StatusAssinatura) {
-  return status === "active" || status === "trialing" || status === "past_due";
+  return status === "active" || status === "trialing";
 }
 
 export function priceDoPlano(plano: Plano) {
