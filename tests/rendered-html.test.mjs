@@ -89,15 +89,20 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
 });
 
 test("usa a landing pública na raiz e mantém o início dos membros separado", async () => {
-  const [raiz, area, entrar] = await Promise.all([
+  const [raiz, area, entrar, vercel] = await Promise.all([
     ler("app/page.tsx"),
     ler("app/componentes/AreaShell.tsx"),
     ler("app/(publico)/entrar/page.tsx"),
+    ler("vercel.json"),
   ]);
 
   assert.match(raiz, /\(publico\)\/vendas\/page/);
   assert.match(area, /href: "\/inicio"/);
   assert.match(entrar, /"\/inicio"/);
+  assert.deepEqual(JSON.parse(vercel).rewrites[0], {
+    source: "/",
+    destination: "https://movimento-hagios.hoolydev.workers.dev/vendas",
+  });
 });
 
 test("mantém as telas públicas de aquisição e autenticação", async () => {
