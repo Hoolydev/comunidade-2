@@ -27,5 +27,8 @@
   ],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsuY29tdW5pZGFkZWhhZ2lvcy5jb20uYnIk"
   }
 }

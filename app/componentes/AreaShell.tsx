@@ -25,6 +25,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { GerenciarAssinaturaButton } from "./GerenciarAssinaturaButton";
 
 type NavItem = { label: string; icon: LucideIcon; href: string; badge?: string };
 
@@ -84,6 +85,7 @@ export function AreaShell({ children }: { children: ReactNode }) {
         <div className="sidebar-footer">
           <Show when="signed-in"><UserButton appearance={{ elements: { avatarBox: "clerk-avatar" } }} /><div><strong>Minha conta</strong><span>Membro Hágios</span></div></Show>
           <Show when="signed-out"><div className="profile-avatar">MH</div><div><strong>Acesso de membro</strong><span>Entre para continuar</span></div><SignInButton mode="modal"><button className="footer-login">Entrar</button></SignInButton></Show>
+          <Show when="signed-in"><GerenciarAssinaturaButton /></Show>
         </div>
       </aside>
 

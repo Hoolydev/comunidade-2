@@ -67,17 +67,23 @@ test("mantém biblioteca privada e painel de publicação", async () => {
 });
 
 test("protege a comunidade e libera acesso somente pelo webhook", async () => {
-  const [inicio, layout, checkout, webhook, sucesso] = await Promise.all([
+  const [inicio, layout, provider, checkout, webhook, webhookVercel, sucesso, portal] = await Promise.all([
     ler("app/(plataforma)/inicio/page.tsx"),
     ler("app/(plataforma)/layout.tsx"),
+    ler("app/ClerkClientProvider.tsx"),
     ler("app/api/checkout/route.ts"),
     ler("app/api/stripe/webhook/route.ts"),
+    ler("api/stripe/webhook.ts"),
     ler("app/componentes/ConfirmarPagamento.tsx"),
+    ler("app/componentes/GerenciarAssinaturaButton.tsx"),
   ]);
 
   assert.match(inicio, /HomeMembro/);
   assert.match(layout, /verificarAcesso/);
   assert.match(layout, /RedirecionarAcesso/);
+  assert.match(provider, /localization=\{ptBR\}/);
+  assert.match(provider, /CLERK_PUBLISHABLE_KEY/);
+  assert.doesNotMatch(provider, /publishableKey: string/);
   assert.match(checkout, /priceIdDoPlano/);
   assert.doesNotMatch(checkout, /pedido\.price/);
   assert.match(checkout, /client_reference_id/);
@@ -85,8 +91,12 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   assert.match(webhook, /await request\.text\(\)/);
   assert.match(webhook, /constructEventAsync/);
   assert.match(webhook, /registrarEventoStripe/);
+  assert.match(webhook, /invoice\.payment_succeeded/);
+  assert.match(webhookVercel, /invoice\.payment_succeeded/);
   assert.match(sucesso, /\/api\/assinatura/);
   assert.doesNotMatch(sucesso, /updateUserMetadata/);
+  assert.match(portal, /\/api\/portal/);
+  assert.match(portal, /Gerenciar assinatura/);
 });
 
 test("usa a landing pública na raiz e mantém o início dos membros separado", async () => {

@@ -72,12 +72,20 @@ async function processarEvento(stripe: Stripe, evento: Stripe.Event) {
     return;
   }
 
-  if (evento.type === "invoice.payment_failed") {
+  if (
+    evento.type === "invoice.payment_failed" ||
+    evento.type === "invoice.payment_succeeded"
+  ) {
     const assinatura = await assinaturaDaFatura(stripe, evento.data.object as Stripe.Invoice);
     if (!assinatura) return;
     const uid = await uidDaAssinatura(stripe, assinatura);
     if (!uid) throw new Error("Fatura sem usuario Clerk relacionado");
-    await gravarAssinatura(uid, assinatura, evento.created, "past_due");
+    await gravarAssinatura(
+      uid,
+      assinatura,
+      evento.created,
+      evento.type === "invoice.payment_failed" ? "past_due" : undefined,
+    );
   }
 }
 

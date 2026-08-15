@@ -163,6 +163,15 @@
 .admin-blocked span { color: var(--gold); font-size: 10px; font-weight: 780; letter-spacing: .15em; text-transform: uppercase; }
 .admin-blocked h2 { margin: 12px 0; color: var(--white); }
 
+/* Assinatura */
+.sidebar-footer { flex-wrap: wrap; }
+.subscription-management { width: 100%; }
+.subscription-management button { width: 100%; min-height: 36px; padding: 0 10px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #dbe1ea; background: rgba(255,255,255,.025); border: 1px solid var(--line); cursor: pointer; font-size: 10px; font-weight: 650; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+.subscription-management button:hover { color: var(--gold); background: rgba(242,183,49,.06); border-color: rgba(242,183,49,.32); }
+.subscription-management button:disabled { cursor: wait; opacity: .65; }
+.subscription-management svg { width: 14px; }
+.subscription-management span { margin-top: 7px; color: #f0a48b; white-space: normal; font-size: 9px; line-height: 1.35; }
+
 @media (max-width: 820px) {
   .admin-summary { grid-template-columns: 1fr; }
   .admin-section > header { grid-template-columns: 1fr; gap: 10px; }
