@@ -36,7 +36,7 @@ export function IniciarCheckout({ plano }: { plano: PlanoSlug }) {
           return;
         }
         if (resposta.status === 409) {
-          router.replace("/");
+          router.replace("/inicio");
           return;
         }
         if (!resposta.ok || !dados.url) throw new Error(dados.erro ?? "erro_interno");

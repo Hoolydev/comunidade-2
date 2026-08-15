@@ -1,10 +1,3 @@
-import { HomeMembro } from "./componentes/HomeMembro";
-import { previewLocalAtivo } from "./lib/acesso-local";
-import { exigirAssinante } from "./lib/guarda";
+import "./estilos/acesso.css";
 
-export const runtime = "nodejs";
-
-export default async function Home() {
-  if (!previewLocalAtivo()) await exigirAssinante("/");
-  return <HomeMembro />;
-}
+export { default } from "./(publico)/vendas/page";

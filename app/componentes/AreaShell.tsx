@@ -30,7 +30,7 @@ type NavItem = { label: string; icon: LucideIcon; href: string; badge?: string }
 
 const navGroups: { label: string; items: NavItem[] }[] = [
   { label: "Aprender", items: [
-    { label: "Início", icon: House, href: "/" },
+    { label: "Início", icon: House, href: "/inicio" },
     { label: "Formações", icon: GraduationCap, href: "/formacoes" },
     { label: "Biblioteca", icon: LibraryBig, href: "/biblioteca" },
     { label: "Meu progresso", icon: ChartNoAxesColumnIncreasing, href: "/progresso" },
@@ -55,13 +55,13 @@ export function AreaShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => href === "/inicio" ? pathname === "/inicio" : pathname.startsWith(href);
 
   return (
     <div className="app-shell">
       <aside className={`sidebar ${menuOpen ? "sidebar--open" : ""}`}>
         <div className="brand">
-          <Link href="/" className="area-brand">
+          <Link href="/inicio" className="area-brand">
             <img src="/logo-hagios.png" alt="Emblema Movimento Hágios" />
             <div className="brand-copy"><span>Movimento</span><strong>HÁGIOS</strong></div>
           </Link>

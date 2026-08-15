@@ -6,6 +6,6 @@ import { exigirAssinante } from "../lib/guarda";
 export const runtime = "nodejs";
 
 export default async function PlataformaLayout({ children }: { children: ReactNode }) {
-  if (!previewLocalAtivo()) await exigirAssinante("/");
+  if (!previewLocalAtivo()) await exigirAssinante("/inicio");
   return <AreaShell>{children}</AreaShell>;
 }

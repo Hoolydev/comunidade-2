@@ -68,14 +68,14 @@ test("mantém biblioteca privada e painel de publicação", async () => {
 
 test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   const [inicio, layout, checkout, webhook, sucesso] = await Promise.all([
-    ler("app/page.tsx"),
+    ler("app/(plataforma)/inicio/page.tsx"),
     ler("app/(plataforma)/layout.tsx"),
     ler("app/api/checkout/route.ts"),
     ler("app/api/stripe/webhook/route.ts"),
     ler("app/componentes/ConfirmarPagamento.tsx"),
   ]);
 
-  assert.match(inicio, /exigirAssinante/);
+  assert.match(inicio, /HomeMembro/);
   assert.match(layout, /exigirAssinante/);
   assert.match(checkout, /priceIdDoPlano/);
   assert.doesNotMatch(checkout, /pedido\.price/);
@@ -86,6 +86,18 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   assert.match(webhook, /registrarEventoStripe/);
   assert.match(sucesso, /\/api\/assinatura/);
   assert.doesNotMatch(sucesso, /updateUserMetadata/);
+});
+
+test("usa a landing pública na raiz e mantém o início dos membros separado", async () => {
+  const [raiz, area, entrar] = await Promise.all([
+    ler("app/page.tsx"),
+    ler("app/componentes/AreaShell.tsx"),
+    ler("app/(publico)/entrar/page.tsx"),
+  ]);
+
+  assert.match(raiz, /\(publico\)\/vendas\/page/);
+  assert.match(area, /href: "\/inicio"/);
+  assert.match(entrar, /"\/inicio"/);
 });
 
 test("mantém as telas públicas de aquisição e autenticação", async () => {

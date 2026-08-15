@@ -55,7 +55,7 @@ export function ConfirmarPagamento({ sessionId }: { sessionId: string | null }) 
             ? "Bem-vindo ao Movimento Hágios. Suas formações já estão disponíveis."
             : "Isso costuma levar apenas alguns segundos. Pode manter esta página aberta."}
       </p>
-      {estado === "liberado" && <Link className="mh-button mh-button--gold" href="/">Entrar na comunidade</Link>}
+      {estado === "liberado" && <Link className="mh-button mh-button--gold" href="/inicio">Entrar na comunidade</Link>}
       {estado === "demorando" && (
         <div className="mh-process__reference">
           <span>Referência do checkout</span>
