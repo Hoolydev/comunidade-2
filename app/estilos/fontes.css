@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Geist Hágios";
+  src: url("../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono Hágios";
+  src: url("../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --font-geist-sans: "Geist Hágios", Arial, sans-serif;
+  --font-geist-mono: "Geist Mono Hágios", ui-monospace, monospace;
+}
