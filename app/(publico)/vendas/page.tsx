@@ -5,6 +5,12 @@ import Link from "next/link";
 
 import { MarcaHagios } from "../../componentes/MarcaHagios";
 import { formacoes } from "../../dados-comunidade";
+import {
+  economiaAnualPublicaCentavos,
+  equivalenteMensalDoAnualCentavos,
+  PRECO_ANUAL_PUBLICO_CENTAVOS,
+} from "../../lib/oferta-publica";
+import { formatarPreco, PLANOS } from "../../lib/planos";
 
 const entregas = [
   {
@@ -43,6 +49,8 @@ const transformacoes = [
 
 export default function Vendas() {
   const capas = [...formacoes, ...formacoes];
+  const economiaAnual = economiaAnualPublicaCentavos();
+  const equivalenteMensal = equivalenteMensalDoAnualCentavos();
 
   return (
     <main className="mh-sales">
@@ -55,7 +63,7 @@ export default function Vendas() {
         </nav>
         <div>
           <Link href="/entrar">Entrar</Link>
-          <Link className="mh-button mh-button--gold" href="/planos">Quero participar</Link>
+          <a className="mh-button mh-button--gold" href="#planos">Quero participar</a>
         </div>
       </header>
 
@@ -68,9 +76,9 @@ export default function Vendas() {
             processos, reduzir o peso da operação e criar espaço para a empresa crescer.
           </p>
           <div className="mh-sales__actions">
-            <Link className="mh-button mh-button--gold" href="/planos">
+            <a className="mh-button mh-button--gold" href="#planos">
               Quero participar <ArrowRight />
-            </Link>
+            </a>
             <a className="mh-sales__text-link" href="#como-funciona">Entender como funciona</a>
           </div>
           <div className="mh-sales__trust" aria-label="Benefícios principais">
@@ -78,6 +86,11 @@ export default function Vendas() {
             <span><Check /> Direção para implementar</span>
             <span><Check /> Sem precisar ser especialista</span>
           </div>
+          <a className="mh-sales__annual-callout" href="#planos">
+            <span>PLANO ANUAL</span>
+            <strong>Economize {formatarPreco(economiaAnual)}</strong>
+            <small>{formatarPreco(PRECO_ANUAL_PUBLICO_CENTAVOS)}/ano · equivalente a {formatarPreco(equivalenteMensal)}/mês</small>
+          </a>
         </div>
 
         <div className="mh-sales__mockup">
@@ -143,7 +156,7 @@ export default function Vendas() {
             Você não entra apenas para consumir conteúdo. Entra para começar a construir uma empresa
             mais eficiente, atualizada e preparada para crescer.
           </p>
-          <Link className="mh-button mh-button--gold" href="/planos">Quero participar <ArrowRight /></Link>
+          <a className="mh-button mh-button--gold" href="#planos">Quero participar <ArrowRight /></a>
         </div>
         <div className="mh-sales__ninety">
           <span>EM ATÉ</span>
@@ -204,6 +217,48 @@ export default function Vendas() {
         </div>
       </section>
 
+      <section className="mh-sales__pricing" id="planos">
+        <div className="mh-section-title">
+          <p className="mh-eyebrow">ESCOLHA COMO PARTICIPAR</p>
+          <h2>Acesso completo à comunidade, todos os dias do ano.</h2>
+          <p>Os dois planos liberam as mesmas formações, encontros, materiais e atualizações.</p>
+        </div>
+        <div className="mh-sales__pricing-grid">
+          <article className="mh-sales__price-card">
+            <p>Plano mensal</p>
+            <h3>{formatarPreco(PLANOS.mensal.precoCentavos)}<small>/mês</small></h3>
+            <span>Flexibilidade para começar</span>
+            <ul>
+              <li><Check /> Acesso completo à plataforma</li>
+              <li><Check /> Formações e atualizações semanais</li>
+              <li><Check /> Comunidade e encontros ao vivo</li>
+            </ul>
+            <Link className="mh-button mh-button--ghost" href="/cadastro?plano=mensal">
+              Começar no mensal <ArrowRight />
+            </Link>
+          </article>
+
+          <article className="mh-sales__price-card mh-sales__price-card--featured">
+            <span className="mh-sales__price-tag">MAIS VANTAJOSO</span>
+            <p>Plano anual</p>
+            <h3>{formatarPreco(PRECO_ANUAL_PUBLICO_CENTAVOS)}<small>/ano</small></h3>
+            <strong>Economize {formatarPreco(economiaAnual)} — quase 2 mensalidades de desconto</strong>
+            <small className="mh-sales__price-equivalent">
+              Equivale a {formatarPreco(equivalenteMensal)} por mês
+            </small>
+            <ul>
+              <li><Check /> Acesso completo à plataforma</li>
+              <li><Check /> Formações e atualizações semanais</li>
+              <li><Check /> Comunidade e encontros ao vivo</li>
+            </ul>
+            <Link className="mh-button mh-button--gold" href="/cadastro?plano=anual">
+              Garantir o desconto anual <ArrowRight />
+            </Link>
+          </article>
+        </div>
+        <p className="mh-sales__pricing-security">Pagamento recorrente e seguro processado pela Stripe.</p>
+      </section>
+
       <section className="mh-sales__cta">
         <img src="/logo-hagios.png" alt="" width="78" height="78" />
         <p className="mh-eyebrow">O CONVITE PARA COMEÇAR</p>
@@ -212,7 +267,9 @@ export default function Vendas() {
           Entre para a Comunidade Hágios e comece a construir uma empresa que funciona melhor,
           com a inteligência artificial aplicada às prioridades do seu negócio.
         </p>
-        <Link className="mh-button mh-button--gold" href="/planos">Quero participar <ArrowRight /></Link>
+        <Link className="mh-button mh-button--gold" href="/cadastro?plano=anual">
+          Quero o plano anual com desconto <ArrowRight />
+        </Link>
       </section>
     </main>
   );

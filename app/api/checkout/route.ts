@@ -54,6 +54,15 @@ export async function POST(request: Request) {
       cancel_url: `${appUrl}/planos`,
       allow_promotion_codes: false,
       locale: "pt-BR",
+      ...(pedido.plano === "anual"
+        ? {
+            custom_text: {
+              submit: {
+                message: "Plano anual: economize R$ 167 em relação ao mensal — quase 2 mensalidades de desconto.",
+              },
+            },
+          }
+        : {}),
     });
 
     if (!checkout.url) throw new Error("Checkout sem URL");

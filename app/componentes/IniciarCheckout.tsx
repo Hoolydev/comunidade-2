@@ -64,7 +64,12 @@ export function IniciarCheckout({ plano }: { plano: PlanoSlug }) {
         <>
           <span className="mh-spinner" aria-hidden="true" />
           <h1>Preparando seu checkout seguro…</h1>
-          <p>Você será direcionado para o ambiente protegido da Stripe.</p>
+          <p>
+            {plano === "anual"
+              ? "Plano anual selecionado: R$ 997 por ano, com R$ 167 de economia."
+              : "Plano mensal selecionado: R$ 97 por mês."}
+          </p>
+          <small className="mh-process__stripe-note">Você será direcionado para o ambiente protegido da Stripe.</small>
         </>
       )}
     </main>

@@ -34,6 +34,15 @@ const checkoutFunction = {
         cancel_url: `${urlDoApp()}/planos`,
         allow_promotion_codes: false,
         locale: "pt-BR",
+        ...(corpo.plano === "anual"
+          ? {
+              custom_text: {
+                submit: {
+                  message: "Plano anual: economize R$ 167 em relação ao mensal — quase 2 mensalidades de desconto.",
+                },
+              },
+            }
+          : {}),
       });
       if (!checkout.url) throw new Error("Checkout sem URL");
       return json({ url: checkout.url });

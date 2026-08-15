@@ -105,6 +105,22 @@ test("mantém as telas públicas de aquisição e autenticação", async () => {
   assert.match(vendas, /mh-track-marquee/);
   assert.match(vendas, /mockup-comunidade-hagios\.png/);
   assert.match(vendas, /três operações com IA/);
+  assert.match(vendas, /Garantir o desconto anual/);
+  assert.match(vendas, /quase 2 mensalidades de desconto/);
   assert.doesNotMatch(vendas, /sales-orbit/);
   await access(new URL("public/mockup-comunidade-hagios.png", raiz));
+});
+
+test("destaca a economia anual na oferta e no checkout", async () => {
+  const [oferta, checkoutWorker, checkoutVercel] = await Promise.all([
+    ler("app/lib/oferta-publica.ts"),
+    ler("app/api/checkout/route.ts"),
+    ler("api/checkout.ts"),
+  ]);
+
+  assert.match(oferta, /99_700/);
+  assert.match(checkoutWorker, /custom_text/);
+  assert.match(checkoutWorker, /economize R\$ 167/);
+  assert.match(checkoutVercel, /custom_text/);
+  assert.match(checkoutVercel, /economize R\$ 167/);
 });
