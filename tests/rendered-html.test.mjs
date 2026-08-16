@@ -79,7 +79,7 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
     ler("app/componentes/GerenciarAssinaturaButton.tsx"),
   ]);
 
-  assert.match(inicio, /HomeMembro/);
+  assert.match(inicio, /InicioInterativo/);
   assert.match(layout, /verificarAcesso/);
   assert.match(layout, /RedirecionarAcesso/);
   assert.match(provider, /localization=\{ptBR\}/);
@@ -95,7 +95,8 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   assert.match(webhook, /invoice\.payment_succeeded/);
   assert.match(webhookVercel, /invoice\.payment_succeeded/);
   assert.match(apiShared, /status === "active" \|\| status === "trialing"/);
-  assert.doesNotMatch(apiShared, /status === "trialing" \|\| status === "past_due"/);
+  const regraDeAcesso = apiShared.match(/export function temAcesso[\s\S]*?\n}/)?.[0] ?? "";
+  assert.doesNotMatch(regraDeAcesso, /past_due/);
   assert.match(sucesso, /\/api\/assinatura/);
   assert.doesNotMatch(sucesso, /updateUserMetadata/);
   assert.match(portal, /\/api\/portal/);
@@ -164,4 +165,50 @@ test("destaca a economia anual na oferta e no checkout", async () => {
   assert.match(checkoutWorker, /economize R\$ 167/);
   assert.match(checkoutVercel, /custom_text/);
   assert.match(checkoutVercel, /economize R\$ 167/);
+});
+
+test("persiste as funções centrais da comunidade no D1", async () => {
+  const [schema, feed, perfis, projetos, eventos, notificacoes, agentes, busca] = await Promise.all([
+    ler("db/schema.ts"),
+    ler("app/api/comunidade/feed/route.ts"),
+    ler("app/api/comunidade/perfis/route.ts"),
+    ler("app/api/comunidade/projetos/route.ts"),
+    ler("app/api/comunidade/eventos/route.ts"),
+    ler("app/api/comunidade/notificacoes/route.ts"),
+    ler("app/api/comunidade/agentes/route.ts"),
+    ler("app/api/comunidade/busca/route.ts"),
+  ]);
+
+  for (const tabela of ["perfis", "publicacoes", "comentarios", "interacoes_publicacao", "projetos_membros", "eventos_comunidade", "notificacoes", "conversas_agentes"]) {
+    assert.match(schema, new RegExp(`\\"${tabela}\\"`));
+  }
+  for (const rota of [feed, perfis, projetos, eventos, notificacoes, agentes, busca]) {
+    assert.match(rota, /autorizarComunidade/);
+    assert.match(rota, /bancoComunidade/);
+  }
+  assert.match(agentes, /@cf\/meta\/llama-3\.1-8b-instruct-fast/);
+  assert.match(agentes, /Não solicite senhas, chaves ou dados pessoais sensíveis/);
+});
+
+test("substitui os componentes demonstrativos por interações reais", async () => {
+  const [feed, membros, projetos, encontros, agentes, shell, inicio, vendas] = await Promise.all([
+    ler("app/componentes/FeedInterativo.tsx"),
+    ler("app/componentes/MembrosInterativos.tsx"),
+    ler("app/componentes/ProjetosInterativos.tsx"),
+    ler("app/componentes/EventosInterativos.tsx"),
+    ler("app/componentes/AgentesInterativos.tsx"),
+    ler("app/componentes/AreaShell.tsx"),
+    ler("app/(plataforma)/inicio/page.tsx"),
+    ler("app/(publico)/vendas/page.tsx"),
+  ]);
+  assert.match(feed, /\/api\/comunidade\/feed/);
+  assert.match(membros, /Editar meu perfil/);
+  assert.match(projetos, /Criar projeto/);
+  assert.match(encontros, /Confirmar presença/);
+  assert.match(agentes, /Iniciar análise/);
+  assert.match(shell, /NotificacoesMenu/);
+  assert.match(shell, /\/buscar\?termo=/);
+  assert.match(inicio, /InicioInterativo/);
+  assert.match(vendas, /\/privacidade/);
+  assert.match(vendas, /\/cancelamento/);
 });

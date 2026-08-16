@@ -15,6 +15,7 @@
     "db:generate": "drizzle-kit generate",
     "db:seed:generate": "node scripts/gerar-seed-conteudo.mjs",
     "db:migrate:remote": "wrangler d1 execute movimento-hagios --remote --file=drizzle/0000_luxuriant_warhawk.sql",
+    "db:migrate:comunidade:remote": "wrangler d1 execute movimento-hagios --remote --config wrangler.remote.jsonc --file=drizzle/0001_blushing_post.sql",
     "db:seed:remote": "wrangler d1 execute movimento-hagios --remote --file=drizzle/0001_seed_conteudo.sql"
   },
   "dependencies": {

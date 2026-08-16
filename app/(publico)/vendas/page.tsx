@@ -275,6 +275,11 @@ export default function Vendas() {
           Quero implementar IA agora
         </Link>
       </section>
+      <footer className="mh-sales__legal-footer">
+        <Link href="/termos">Termos de uso</Link>
+        <Link href="/privacidade">Política de privacidade</Link>
+        <Link href="/cancelamento">Cancelamento e reembolso</Link>
+      </footer>
     </main>
   );
 }

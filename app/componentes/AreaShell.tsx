@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Show, SignInButton, UserButton } from "@clerk/react";
 import {
-  Bell,
   Bot,
   Boxes,
   BriefcaseBusiness,
@@ -26,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { GerenciarAssinaturaButton } from "./GerenciarAssinaturaButton";
+import { NotificacoesMenu } from "./NotificacoesMenu";
 
 type NavItem = { label: string; icon: LucideIcon; href: string; badge?: string };
 
@@ -50,7 +50,7 @@ const navGroups: { label: string; items: NavItem[] }[] = [
   ] },
 ];
 
-export function AreaShell({ children }: { children: ReactNode }) {
+export function AreaShell({ children, administrador = false }: { children: ReactNode; administrador?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,7 +72,7 @@ export function AreaShell({ children }: { children: ReactNode }) {
           {navGroups.map((group) => (
             <div className="nav-group" key={group.label}>
               <p>{group.label}</p>
-              {group.items.map(({ icon: Icon, label, href, badge }) => (
+              {group.items.filter((item) => item.href !== "/admin/conteudos" || administrador).map(({ icon: Icon, label, href, badge }) => (
                 <Link key={href} href={href} className={isActive(href) ? "active" : ""} onClick={() => setMenuOpen(false)}>
                   <Icon className="nav-icon" strokeWidth={1.8} />
                   <span>{label}</span>
@@ -95,13 +95,13 @@ export function AreaShell({ children }: { children: ReactNode }) {
         <header className="topbar">
           <button className="menu-button" onClick={() => setMenuOpen(true)} aria-label="Abrir menu"><Menu /></button>
           <div className="mobile-brand">HÁGIOS</div>
-          <form className="search" onSubmit={(event) => { event.preventDefault(); router.push(`/formacoes?busca=${encodeURIComponent(query)}`); }}>
+          <form className="search" onSubmit={(event) => { event.preventDefault(); if (query.trim()) router.push(`/buscar?termo=${encodeURIComponent(query.trim())}`); }}>
             <Search size={19} />
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar formações, aulas e conteúdos" aria-label="Buscar na plataforma" />
             <kbd>↵</kbd>
           </form>
           <div className="top-actions">
-            <button className="icon-button" aria-label="Notificações"><Bell size={19} /><i /></button>
+            <NotificacoesMenu />
             <Link className="help-button" href="/feed"><CircleHelp size={17} /> Central de ajuda</Link>
           </div>
         </header>

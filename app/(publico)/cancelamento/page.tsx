@@ -1,0 +1,6 @@
+import { MarcaHagios } from "../../componentes/MarcaHagios";
+import "../../estilos/legal.css";
+
+export default function CancelamentoPage() {
+  return <main className="mh-legal"><nav className="mh-legal__nav"><MarcaHagios /><a href="/vendas">Voltar para a página inicial</a></nav><article><p className="mh-eyebrow">ASSINATURA</p><h1>Cancelamento e reembolso</h1><small>Última atualização: 15 de agosto de 2026.</small><h2>Cancelamento</h2><p>O assinante pode solicitar o cancelamento pelo Portal do Cliente disponível na área de membros. Quando aplicável, o acesso permanece disponível até o término do período já pago.</p><h2>Renovação</h2><p>Planos mensais e anuais renovam automaticamente até o cancelamento. O valor e o ciclo são apresentados antes da confirmação no Checkout da Stripe.</p><h2>Direito de arrependimento</h2><p>Pedidos apresentados dentro do prazo legal aplicável serão analisados conforme o Código de Defesa do Consumidor e a natureza do serviço digital disponibilizado.</p><h2>Falha de pagamento</h2><p>Se uma cobrança falhar, a Stripe poderá realizar novas tentativas. O acesso pode ser suspenso enquanto a assinatura estiver inadimplente.</p><h2>Como solicitar ajuda</h2><p>Use o Portal do Cliente para gerenciar a assinatura ou entre em contato pelos canais oficiais da Comunidade Hágios informando o e-mail cadastrado.</p></article></main>;
+}

@@ -9,7 +9,7 @@ Os tipos citados aqui estão em `app/lib/tipos.ts` e são a definição normativ
 
 ```
   1. /planos             visitante escolhe um plano
-  2. /cadastro?plano=X   Google ou e-mail+senha (Clerk)  →  autenticado
+  2. /cadastro?plano=X   e-mail+senha (Clerk)  →  autenticado
   3. /assinar?plano=X    POST /api/checkout  →  redireciona para a Stripe
   4. checkout.stripe.com pagamento
   5. /pagamento/sucesso  ← success_url. Faz polling de GET /api/assinatura.
@@ -29,7 +29,7 @@ já está autenticado.
 | Assinante ativo tenta assinar de novo | `/api/checkout` responde `409 ja_assinante` → cliente manda para `/` |
 | Usuário desiste no checkout (`cancel_url`) | Volta para `/planos`, conta permanece criada e logada, sem acesso |
 | Webhook demora mais de 20s | `/pagamento/sucesso` explica que o acesso é liberado sozinho e mostra o `session_id` para copiar |
-| Pagamento falha depois (`past_due`) | Banner na área de membros com link para o portal. Acesso mantido até `canceled`. |
+| Pagamento falha depois (`past_due`) | Acesso suspenso; o cliente regulariza a cobrança pelo portal da Stripe. |
 | Assinatura cancelada | Acesso revogado no próximo carregamento; área de membros vira paywall |
 
 ---
@@ -144,6 +144,7 @@ Eventos tratados:
 | `customer.subscription.created` / `.updated` | uid de `metadata.clerkUserId`, com fallback em `clientes_stripe` e depois no próprio customer da Stripe |
 | `customer.subscription.deleted` | grava `canceled`, revoga acesso |
 | `invoice.payment_failed` | grava `past_due` |
+| `invoice.payment_succeeded` | sincroniza novamente o estado da assinatura e restaura o acesso quando regularizado |
 
 Uma única função `gravarAssinatura(uid, subscription, eventoEm)` escreve o
 estado. Ela é o único lugar do código que escreve `publicMetadata.assinatura`.
@@ -208,6 +209,26 @@ req  { aulaId, posicaoSegundos, duracaoSegundos, concluida }
 
 A conclusão é preservada e também é marcada automaticamente quando o aluno
 atinge 90% do vídeo.
+
+---
+
+## Extensão — comunidade interativa
+
+Todas as rotas abaixo exigem assinatura ativa em produção, usam a identidade do
+Clerk no servidor e persistem dados no D1.
+
+- `GET/POST/DELETE /api/comunidade/feed`: publicações, comentários, curtidas e itens salvos.
+- `GET/PUT /api/comunidade/perfis`: diretório de membros e edição do próprio perfil.
+- `GET/POST/PUT/DELETE /api/comunidade/projetos`: projetos pertencentes ao membro autenticado.
+- `GET/POST /api/comunidade/eventos`: agenda, replays e confirmação de presença.
+- `GET/POST /api/comunidade/notificacoes`: notificações globais ou individuais e leitura por membro.
+- `GET/POST /api/comunidade/oportunidades`: candidaturas pertencentes ao membro autenticado.
+- `GET/POST/DELETE /api/comunidade/agentes`: conversa com Workers AI e histórico privado por agente.
+- `GET /api/comunidade/busca?termo=...`: busca unificada em formações, materiais, membros e feed.
+
+Os agentes usam `@cf/meta/llama-3.1-8b-instruct-fast` pelo binding `AI`. O
+histórico fica em `conversas_agentes`; senhas, chaves e dados pessoais sensíveis
+nunca devem ser enviados ao modelo.
 
 ---
 
