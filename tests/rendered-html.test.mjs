@@ -82,7 +82,10 @@ test("protege a comunidade e libera acesso somente pelo webhook", async () => {
   assert.match(inicio, /InicioInterativo/);
   assert.match(layout, /verificarAcesso/);
   assert.match(layout, /RedirecionarAcesso/);
-  assert.match(provider, /localization=\{ptBR\}/);
+  assert.match(provider, /\.\.\.ptBR/);
+  assert.match(provider, /formFieldInputPlaceholder__signUpPassword/);
+  assert.match(provider, /colorForeground: "#f8fafc"/);
+  assert.match(provider, /colorInputForeground: "#172033"/);
   assert.match(provider, /CLERK_PUBLISHABLE_KEY/);
   assert.doesNotMatch(provider, /publishableKey: string/);
   assert.match(checkout, /priceIdDoPlano/);

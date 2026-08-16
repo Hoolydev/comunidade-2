@@ -14,12 +14,31 @@ export function ClerkClientProvider({ children }: { children: React.ReactNode })
       publishableKey={CLERK_PUBLISHABLE_KEY}
       signInUrl="/entrar"
       signUpUrl="/cadastro"
-      localization={ptBR}
+      localization={{
+        ...ptBR,
+        formFieldInputPlaceholder__signUpPassword: "Crie uma senha segura",
+      }}
       appearance={{
+        options: {
+          privacyPageUrl: "/privacidade",
+          termsPageUrl: "/termos",
+        },
         variables: {
-          colorPrimary: "#f2b731",
-          colorBackground: "#202a3e",
-          borderRadius: "0.5rem",
+          colorPrimary: "#f4bd3b",
+          colorPrimaryForeground: "#111827",
+          colorBackground: "#182236",
+          colorForeground: "#f8fafc",
+          colorMuted: "#27344b",
+          colorMutedForeground: "#bcc7d8",
+          colorInput: "#ffffff",
+          colorInputForeground: "#172033",
+          colorNeutral: "#dbe3ef",
+          colorBorder: "#3b4963",
+          colorRing: "#f4bd3b",
+          colorDanger: "#ff7b7b",
+          colorShadow: "#050b16",
+          borderRadius: "0.75rem",
+          fontFamily: "var(--font-geist), Arial, sans-serif",
         },
       }}
     >
