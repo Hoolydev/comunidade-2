@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
-    "deploy:cloudflare": "npm run build && wrangler deploy --config wrangler.remote.jsonc",
+    "build:cloudflare": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsuY29tdW5pZGFkZWhhZ2lvcy5jb20uYnIk npm run build",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy --config wrangler.remote.jsonc",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
