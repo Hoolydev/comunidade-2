@@ -1,4 +1,4 @@
-const ADMINISTRADORES_PADRAO = ["ruanna@hagios.com"];
+const ADMINISTRADORES_PADRAO = ["hagiosmarketingdigital@gmail.com"];
 
 export function emailsAdministradores(): string[] {
   const configurados = (process.env.ADMIN_EMAILS ?? "")
