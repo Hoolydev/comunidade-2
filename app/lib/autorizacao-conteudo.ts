@@ -1,3 +1,4 @@
+import { ehAdministrador } from "./administradores";
 import { sessaoDeRequest } from "./sessao";
 import { temAcesso } from "./tipos";
 
@@ -7,16 +8,12 @@ function ambienteLocal() {
   return process.env.NODE_ENV === "development";
 }
 
-function emailsAdministradores() {
-  return (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
-}
-
 export async function autorizarMembro(request: Request): Promise<IdentidadeConteudo | null> {
   const sessao = await sessaoDeRequest(request);
-  if (sessao.estado === "autenticado" && temAcesso(sessao.assinatura.status)) {
+  if (
+    sessao.estado === "autenticado" &&
+    (temAcesso(sessao.assinatura.status) || ehAdministrador(sessao.email))
+  ) {
     return { uid: sessao.uid, email: sessao.email };
   }
   if (ambienteLocal()) {
@@ -35,11 +32,9 @@ export async function autorizarAdministrador(
     return { uid: "admin-local", email: null };
   }
   if (sessao.estado !== "autenticado") return null;
-
-  const permitidos = emailsAdministradores();
-  if (ambienteLocal() && permitidos.length === 0) {
+  if (ambienteLocal()) {
     return { uid: sessao.uid, email: sessao.email };
   }
-  if (!sessao.email || !permitidos.includes(sessao.email.toLowerCase())) return null;
+  if (!ehAdministrador(sessao.email)) return null;
   return { uid: sessao.uid, email: sessao.email };
 }

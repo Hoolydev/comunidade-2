@@ -1,11 +1,13 @@
 import { AdminContentPanel } from "../../../componentes/AdminContentPanel";
 import { RedirecionarAcesso } from "../../../componentes/RedirecionarAcesso";
+import { ehAdministrador } from "../../../lib/administradores";
 import { sessaoAtual } from "../../../lib/sessao";
 
 export default async function ConteudosAdminPage() {
   const sessao = await sessaoAtual();
-  const permitidos = (process.env.ADMIN_EMAILS ?? "").split(",").map((email) => email.trim().toLowerCase()).filter(Boolean);
-  const autorizado = process.env.NODE_ENV === "development" || (sessao.estado === "autenticado" && Boolean(sessao.email && permitidos.includes(sessao.email.toLowerCase())));
+  const autorizado =
+    process.env.NODE_ENV === "development" ||
+    (sessao.estado === "autenticado" && ehAdministrador(sessao.email));
   if (!autorizado) return <RedirecionarAcesso destino="/inicio" />;
   return (
     <div className="area-content admin-content">
